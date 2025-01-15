@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%% Uebung 09 %%%%%%%%%%%%%%%%%%%%%%%%%%
+erl % starte Erlang
+cd("C:/Users/Marc/Desktop/MasterIT-Sec/1. Semester/Distributed Systems/Übungen/GitRepo/DS_Gruppe4/Uebung 09"). % gehe in das Verzeichnis für das Module Clock
+c(clock). % Kompiliere das Modlul
+ClockPid = clock:start(1000). % Startet den Clock-Prozess mit einem Tick-Intervall von 1000 ms
+clock:get(ClockPid). % Hole die aktuelle Zeit vom Clock-Prozess
+ClockPid ! {set, 10}. % Setze die Zeit
+ClockPid ! pause. % Pausiert den Clock Prozess
+ClockPid ! resume. % Setze den Clock Prozess Fort
+ClockPid ! stop. % Beende den Clock Prozess
+
+
+%%%%%%%%%%%%%%%% Uebung 10 %%%%%%%%%%%%%%%%%%%%%%%%%%
+cd("C:/Users/Marc/Desktop/MasterIT-Sec/1. Semester/Distributed Systems/Übungen/GitRepo/DS_Gruppe4/Uebung 10"). %gehe in das Verzeichnis für das Modul Cristian
+c(clock). % Kompiliere das Modlul clock
+c(cristian) . % Kompiliere das Modul cristian
+ServerPid = cristian:start_server(). % ServerPid = cristian:start_server().
+
+Client1Pid = cristian:start_client(1000).  % Geschwindigkeit 1000 Ticks pro Sekunde
+Client2Pid = cristian:start_client(500).   % Geschwindigkeit 500 Ticks pro Sekunde
+Client3Pid = cristian:start_client(1500).  % Geschwindigkeit 1500 Ticks pro Sekunde
+
+% Sende die adjust-Nachricht an die Client-Prozesse, um die Zeit manuell anzupassen:
+cristian:client_adjust(Client1Pid).
+cristian:client_adjust(Client2Pid).
+cristian:client_adjust(Client3Pid).
+
+% Um den aktuellen internen Zustand des Zeitservers oder der Clients anzuzeigen, sende die show-Nachricht:
+ServerPid ! show.
+Client1Pid ! show.
+Client2Pid ! show.
+Client3Pid ! show.
+
+TimeServerPid = uebung10:start_time_server(),
+Client1 = uebung10:start_client(1000, client1),
+Client2 = uebung10:start_client(1500, client2),
+Client3 = uebung10:start_client(2000, client3).
+
+
+
+
+
